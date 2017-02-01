@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<title>Post it</title>
+  <link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">	
+  <link rel="stylesheet" type="text/css" href="js_css/style.css">
+</head>
+<body>
+<div id="menu">
+<div class="headermenu"><span id="closeMenu">X</span></div>
+<div class="btngroup">
+	<a href="#" id="btnNewProy"><img src="iicons/new.png"></a>
+	<a href="#" id="btnEditProy"><img src="iicons/edit.png"></a>	
+</div>
+<hr>
+	<ul id="listmenu"></ul>		
+	</div>
+	
+</div>
+</div>
+<div id="tablero">
+
+</div>
+
+<div id="dialog-form" title="Panel">
+ 
+  <form>
+    <fieldset>
+    <p>
+      <label for="newProy">Nombre Lienzo</label>
+      <input type="text" name="newProy" id="newProy" class="text ui-widget-content ui-corner-all">   	
+    </p>
+	<p>
+   		<label for="listcanvas">Tipo Lienzo</label>    
+ 		<select id="listcanvas"></select>		
+	</p>
+
+    </fieldset>
+    <div class="btngroup">
+       <a href="#" id="btnNewProy" onclick="Board.confirmFormProyect()"><img src="iicons/ok.png"></a>    
+      <a href="#" id="btnDelProy" onclick="Board.delProyect()"><img src="iicons/del.png"></a>    	
+
+    </div>
+
+
+    <img id="imgPre" src="canvas/kamban.png" style="width:300px">
+  </form>
+</div>
+
+
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  <script src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>	
+  <script src="js_css/postit.js"></script>
+
+</body>
+</html>		

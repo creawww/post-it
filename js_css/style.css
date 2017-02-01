@@ -1,0 +1,177 @@
+html,body{
+  color:black;
+  font-family: monospace;
+  height:100%;
+  width:100%;
+  margin: 0px;
+}
+
+#tablero {
+  margin: 0;
+  padding: 0;
+  position: relative;
+  height:100%;
+  width:100%;
+  background-size: 100% 100%!important;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+	#menu{
+  position: absolute;
+  width: 160px;
+  height: 500px;
+  background-color:  rgba(255,255,255,0.8);
+  box-shadow: -2px 2px 5px #555;
+  z-index: 3;
+  transition: all 1s ease-in-out;
+  margin-left: -200px;
+	}
+
+.headermenu{
+     background-color: rgba(0,0,0,0.3);
+     height: 20px;
+     border-bottom: 1px solid black;
+     padding-right: 5px;
+}
+
+.post-it {   
+  position: absolute !important;
+  width: 160px;
+
+  box-shadow: -2px 2px 5px #555;
+  overflow: hidden;
+}
+
+.post-it .header {
+  background-color: rgba(0,0,0,0.1);
+  text-align: right;
+  padding: 2px;
+}
+
+.post-it .header:hover {
+   background-color: rgba(255,255,255,0.3);
+}
+.post-it .header a.opti {
+float:left;
+}
+
+.post-it .header a, .post-it .header a:visited {
+  text-decoration: none;
+  color: #603311;
+  font-weight: bold;
+}
+
+.post-it .header a:hover {
+  color: #D19275;
+}
+
+.post-it .content {
+  padding: 10px;
+  min-height: 70px;
+  outline: none;
+}
+#listmenu {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+#listmenu li a {
+	display: inline-block;
+	padding: 5px;
+	border-bottom: 1px solid black;
+	text-decoration: none;
+
+
+}
+#pcolors{
+	background-color: white;
+	border-radius: 3px;
+	padding: 0;
+	position:absolute;
+	z-index: 10; 
+	width: 100px;
+}
+#colors {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+#colors li {
+	margin: 2px;
+    float: left;
+}
+
+#colors li a {
+	display: inline-block;
+	width: 15px;
+	height: 15px;
+	border-radius: 50%;
+}
+
+#colors li a:hover {
+	opacity: 0.5;
+}
+
+#closeMenu{
+	float: right;
+	cursor: pointer;  
+}
+
+
+
+#formelemen{
+	margin: 5px;	
+	padding: 5px;
+	border: 1px solid white;
+	border-radius: 5px;
+
+
+
+}
+.chidden{
+       opacity: 0;
+       display:none;
+       transition: all 1s linear;
+
+}
+.cshow{
+       opacity: 1;
+       display:block;
+       transition: all 1s linear;
+}
+#btnNewPostit{
+  position: absolute;
+  top:30px;
+  right:30px;
+}
+#btnOpenMenu{
+  position: absolute;
+  top:10px;
+  left: 10px;
+}
+#btnOpenMenu:hover{
+  display: block;
+}
+.btngroup  {
+padding: 15px;
+display: flex;
+  justify-content: space-between;
+}
+
+
+a{
+  opacity:0.8;
+  text-decoration: none;
+}
+a:hover{
+  opacity:1;
+  transform:scale(1.15);
+
+}
+.active{
+  color:red;
+}

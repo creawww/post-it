@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<title>Post it</title>
+	<style type="text/css">
+html,body{
+  color:black;
+  font-family: monospace;
+  height:100%;
+  width:100%;
+  margin: 0px;
+}
+
+#tablero {
+  margin: 0;
+  padding: 0;
+  position: relative;
+  height:100%;
+  width:100%;
+  background-size: contain;
+
+}
+
+	#menu{
+  position: absolute;
+  width: 160px;
+  height: 500px;
+  background-color:  rgba(255,255,255,0.7);;
+  box-shadow: -2px 2px 5px #555;
+z-index: 3;
+  -webkit-transition: all 1s ease-in-out;
+  -moz-transition: all 1s ease-in-out;
+  -o-transition: all 1s ease-in-out;
+  transition: all 1s ease-in-out;
+	}
+
+.post-it {
+  position: absolute !important;
+  width: 160px;
+
+  box-shadow: -2px 2px 5px #555;
+  overflow: hidden;
+}
+
+.post-it .header {
+  background-color: rgba(0,0,0,0.1);
+  text-align: right;
+  padding: 2px;
+}
+
+.post-it .header:hover {
+   background-color: rgba(255,255,255,0.3);
+}
+
+.post-it .header a, .post-it .header a:visited {
+  text-decoration: none;
+  color: #603311;
+  font-weight: bold;
+}
+
+.post-it .header a:hover {
+  color: #D19275;
+}
+
+.post-it .content {
+  padding: 10px;
+  min-height: 70px;
+  outline: none;
+}
+#listmenu {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+#listmenu li a {
+	display: inline-block;
+	padding: 5px;
+	border-bottom: 1px solid black;
+	text-decoration: none;
+
+
+}
+#colors {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+#colors li {
+	margin: 3px;
+    float: left;
+}
+
+#colors li a {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	border: 1px solid black
+}
+
+#colors li a:hover {
+	opacity: 0.5;
+}
+
+#closeMenu{
+	float: right;
+	cursor: pointer;  
+}
+
+.grupo{
+	display: flex;
+	justify-content: space-between;
+}
+
+
+#formelemen{
+	margin: 5px;	
+	padding: 5px;
+	border: 1px solid white;
+	border-radius: 5px;
+
+
+
+}
+.chidden{
+       opacity: 0;
+       display:none;
+       transition: all 1s linear;
+
+}
+.cshow{
+       opacity: 1;
+       display:block;
+       transition: all 1s linear;
+}
+</style>
+</head>
+<body>
+<div id="menu">
+	<span id="closeMenu">X</span>
+	<div class="grupo">
+		<button id="btnShowProy">+</button>	
+		<h3>PROYECTOS</h3>
+	</div>
+	<div id="formelemen" class="chidden">
+		<input id="newProy" type="text">	
+		<select id="listcanvas"></select>
+		<div class="grupo">
+			<button id="btnDelProy">del</button>				
+			<button id="btnNewProy">OK</button>
+		</div>			
+	</div>
+
+	<ul id="listmenu"></ul>
+
+	<ul id="colors"la>
+			
+</div>
+</div>
+<div id="tablero">
+<button id="openMenu">menu</button>
+<button id="btnNew">+</button>	
+</div>	
+<script>
+var postNumber = 0
+var colors = {"amarillo":"#FEF1B5","azul":"#b5d6fe","verde":"#cefeb5","naranja":"#ffc36b","rosa":"#fab5fe" }
+var canvas = {"canvas":"canvas1.svg", "idea":"canvas1.svg", "otro":"canvas1.svg"}
+
+var canvasActive;
+var canvaspostit=[
+	  { "title":"primer tablero",
+	  	"canvas":"canvas",
+	  	"date" : "20-01-2016",
+		"postits":[
+						{"id": 0, "px": 100, "py":100, "tex":"primer posit", "col":"azul"},
+						{"id": 1, "px": 200, "py":200, "tex":"segundo posit", "col":"rosa"},
+						{"id": 2, "px": 300, "py":300, "tex":"tercero posit", "col":"amarillo"}
+					]  	
+	},
+	  { "title":"tablero verde",
+	  	"canvas":"canvas",
+	  	"date" : "20-01-2016",
+		"postits":[
+					{"id": 0, "px": 100, "py":100, "tex":"1posit", "col":"verde"},
+					{"id": 1, "px": 200, "py":200, "tex":"segundo posit", "col":"verde"},
+					{"id": 2, "px": 300, "py":300, "tex":"tercero posit", "col":"verde"}
+				]  	
+	}
+]
+
+
+
+
+var PostIt={
+
+	obj: {},
+	
+	init: function(){
+  			console.log("inicia")
+			this.initElement();
+  		},
+
+
+		
+		new: function(){
+			console.log("id:"+postNumber);
+			obj={"id": postNumber , "px":100 , "py":100, "tex" : "", "col":"verde" }
+			this.obj=obj;
+			PostIt.draw(obj);
+			PostIt.addData(obj);
+			postNumber+=1;
+		},
+
+		draw: function(obj){
+		
+			var nclose = document.createElement("a");
+			nclose.href = "#";
+			var textn1 = document.createTextNode("X");
+			nclose.appendChild(textn1);
+
+			var nhear = document.createElement("div");
+			nhear.className = "header";
+			nhear.appendChild(nclose);		
+
+			var ncont = document.createElement("div");
+			ncont.className = "content"
+			ncont.setAttribute('contenteditable', "true");
+			var textn2 = document.createTextNode(obj.tex);
+			ncont.appendChild(textn2);
+
+			var ndiv = document.createElement("div");
+			ndiv.className = "post-it";
+			ndiv.id=obj.id;  
+			ndiv.style='left:'+obj.px+'px; top:'+obj.py+'px; background-color: '+colors[obj.col];
+			ndiv.draggable="true"
+			ndiv.appendChild(nhear);
+			ndiv.appendChild(ncont);
+
+			tablero.appendChild(ndiv);
+
+			document.querySelector("a").addEventListener('click',PostIt.delete,false);
+			document.getElementById(obj.id).addEventListener('drag',PostIt.move,false);
+
+		},
+
+		delete: function(e){
+		    var $parent = this.parentElement.parentElement;
+		    $parent.remove();
+		},
+
+		move: function(e){
+			px=e.pageX;
+			py=e.pageY;
+				console.log("se mueve Origen:"+px+"-"+py)
+			color=this.getAttribute("style").split(";")[2];
+			this.style='left:'+px+'px; top:'+py+'px;'+color;	
+
+		},
+
+		propierties:function(id){
+				var e=document.getElementById(id);
+				obj1={
+					"id":id,
+					"px": e.style.left,
+					"py":e.style.top,
+					"tex": e.querySelector(".content").innerHTML,
+					"col":e.style.backgroundColor,
+				}
+			return obj1;	
+
+		},
+		
+		ver:function(){
+			console.log (PostIt.propierties(this.id));
+			console.log (PostIt.obj);
+		},
+		
+		addData:function(data){
+			dat=canvaspostit[canvasActive].postits;
+		    dat.push(data);
+		    console.log("añadido nuevo dato");
+		    console.log(dat)
+		},
+		changeData:function(index,data){
+			dat=canvaspostit[canvasActive].postits;
+		    dat.splice(index, 1, data);
+		    console.log("dato modificado");
+		    console.log(dat)
+		},
+		deleteData:function(data){
+			dat=canvaspostit[canvasActive].postits;
+		    dat.splice(index, 1, data);
+		    console.log("dato borrado");
+		    console.log(dat)
+
+
+		    nPostIt.postits.splice(index, 0);
+		},
+/*
+		_findObjecData:function(value){
+			index=PostIt.postits.map((o) => o.id).indexOf(value);
+			return PostIt.postits[index];
+		}
+*/
+};
+
+var general={
+
+		initElement: function() {
+			console.log("inicia Elementos")
+			var tablero=document.getElementById("tablero");
+			tablero.style="background: url(canvas/ini.svg) no-repeat 100% 100%;"
+			tablero.addEventListener('dragover',function (e) { e.preventDefault(); return false;},false);
+
+
+
+
+		    general.createListMenu();
+		    general.createListCanva();
+		    general.createColor();
+
+			general.read_localStorage();
+			general.addEvents();
+
+		},
+		addEvents:function(){
+
+			document.getElementById('closeMenu').addEventListener('click',general.fcloseMenu,false);
+			document.getElementById('openMenu').addEventListener('click',general.fopenMenu,false);
+
+			document.getElementById('btnNewProy').addEventListener('click',general.addProyect,false);
+			document.getElementById('btnNewProy').addEventListener('click',general.addProyect,false);
+			document.getElementById('btnShowProy').addEventListener('click',general.showForm,false);
+
+			document.querySelector('#btnNew').addEventListener('click' ,PostIt.new ,false);					
+		},
+
+		fcloseMenu:function(){
+			console.log("llega a cerrar");
+			document.getElementById('menu').style.margin="-200px";
+		},
+
+		fopenMenu:function(){
+			document.getElementById('menu').style.margin="0px";
+		},
+		read_localStorage:function(){
+
+		    localStorage.canvaspostit = localStorage.canvaspostit || JSON.stringify(canvaspostit);
+		    return JSON.parse(localStorage.canvaspostit);
+		},
+		showForm:function(){
+			document.getElementById('formelemen').classList.toggle("cshow");;
+		},
+		hiddenForm:function(){
+			document.getElementById('menu').style.margin="0px";
+		},				
+		addProyect:function(){
+			var h = new Date();
+			var hoy = h.getDate()+"-"+(h.getMonth()+1)+"-"+h.getFullYear();
+
+			var e = document.getElementById("listcanvas");
+
+ 
+			obj={
+				"title": document.getElementById('newProy').value,
+			  	"canvas":e.options[e.selectedIndex].value,
+	  			"date" : hoy,
+				"postits":[]
+			};
+
+			canvaspostit.push(obj);
+			general.createListMenu();
+		},
+
+		createListMenu:function(){
+			document.getElementById("listmenu").innerHTML="";
+			for(var d in canvaspostit) {
+			 	   console.log(d+","+canvaspostit[d].title)
+			    general.createElementMenu(d,canvaspostit[d].title);
+			}
+
+		},
+
+		createElementMenu(id,dat){
+			var menu=document.getElementById("listmenu");
+
+					var nenla = document.createElement("a");
+					nenla.href = "#";
+					nenla.setAttribute('onclick', "general.loadCanvas("+id+")");	
+					var textn1 = document.createTextNode(dat);
+					nenla.appendChild(textn1);
+
+					var nli = document.createElement("li");
+			
+					nli.appendChild(nenla);
+
+			   menu.appendChild(nli);		
+		},
+
+		createListCanva:function(){
+			for(var d in canvas) {
+			 	   console.log(d+","+canvas[d])
+			    general.createElementCanvas(d,canvas[d]);
+			}
+		},
+
+
+		createElementCanvas(title,file){
+
+			var can=document.getElementById("listcanvas");
+
+					var nop = document.createElement("option");
+					nop.value = title;
+	
+					var textn1 = document.createTextNode(title);
+					nop.appendChild(textn1);
+
+
+			   can.appendChild(nop);		
+		},
+
+		createColor:function(){
+			for(var d in colors) {
+			    general.createElementcolor(d,colors[d]);
+			}
+
+		},
+		createElementcolor(ncolor,color){
+			var cl=document.getElementById("colors");
+
+					var nenla = document.createElement("a");
+					nenla.href = "#";
+					nenla.className = "color";					
+					nenla.setAttribute('onclick', "general.chageColor("+ncolor+")");
+					nenla.setAttribute('style', "background-color:"+color);	
+					var textn1 = document.createTextNode(" ");
+					nenla.appendChild(textn1);
+
+					var nli = document.createElement("li");
+			
+					nli.appendChild(nenla);
+
+			   cl.appendChild(nli);		
+		},
+
+		loadCanvas:function(id){
+			canvasActive=id;
+			d=canvaspostit[id];
+				var tablero=document.getElementById("tablero");
+				tablero.style="background: url(canvas/"+canvas[d.canvas]+") no-repeat 100% 100%;"
+					for(var p in d.postits) {
+						PostIt.draw(d.postits[p])
+						lastid=d.postits[p].id;
+					}
+			postNumber = lastid+1;
+		}
+}
+
+
+
+	if ('addEventListener' in document) {
+    document.addEventListener('DOMContentLoaded', function() {
+		
+		var tablero=document.getElementById("tablero");
+		general.initElement();	
+		//general.loadCanvas(0);		
+
+    }, false);
+}
+
+</script>
+</body>
+</html>		
