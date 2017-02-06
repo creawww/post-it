@@ -155,7 +155,7 @@ var Board={
 		},
 
 		read_localStorage:function(){
-			localStorage.canvaspostit="";
+			//localStorage.canvaspostit="";
 		    localStorage.canvaspostit = localStorage.canvaspostit || JSON.stringify(canvaspostitIni);
 		    return JSON.parse(localStorage.canvaspostit);
 		},
@@ -177,12 +177,13 @@ var Board={
 			var hoy = h.getDate()+"-"+(h.getMonth()+1)+"-"+h.getFullYear();
 
 			obj={
-				"title": "$('#newProy').val()",
+				"title": $('#newProy').val(),
 			  	"canvas":$('#listcanvas').val(),
 	  			"date" : hoy,
 				"postits":[]
 			};
-
+			console.log("nuevo p")
+			console.log(obj)
 			canvaspostit.push(obj);
 			canvasActive=canvaspostit.length-1;
 			dialog.dialog( "close" );

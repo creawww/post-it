@@ -67,6 +67,7 @@ float:left;
 }
 
 .post-it .content {
+  text-align: center;
   padding: 10px;
   min-height: 70px;
   outline: none;
