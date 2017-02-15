@@ -10,8 +10,8 @@
 <div id="menu">
 <div class="headermenu"><span id="closeMenu">X</span></div>
 <div class="btngroup">
+  <a href="#" id="btnEditProy"><img src="iicons/edit.png"></a>  
 	<a href="#" id="btnNewProy"><img src="iicons/new.png"></a>
-	<a href="#" id="btnEditProy"><img src="iicons/edit.png"></a>	
 </div>
 <hr>
 	<ul id="listmenu"></ul>		
@@ -29,7 +29,7 @@
     <fieldset>
     <p>
       <label for="newProy">Nombre Lienzo</label>
-      <input type="text" name="newProy" id="newProy" class="text ui-widget-content ui-corner-all">   	
+      <input type="text" name="newProy" id="newProy" class="text ui-widget-content ui-corner-all" required>   	
     </p>
 	<p>
    		<label for="listcanvas">Tipo Lienzo</label>    
@@ -38,13 +38,13 @@
 
     </fieldset>
     <div class="btngroup">
-       <a href="#" id="btnNewProy" onclick="Board.confirmFormProyect()"><img src="iicons/ok.png"></a>    
-      <a href="#" id="btnDelProy" onclick="Board.delProyect()"><img src="iicons/del.png"></a>    	
-
+      <a href="#" id="btnNewProy" onclick="Board.confirmFormProyect()"><img src="iicons/ok.png"></a>  
+      <a id="confirmDel" href="#" onclick="Board.delProyect()"><img src="iicons/confirmdel.png"></a> 
+      <a href="#" id="btnDelProy" onclick="Board.showConfirmDel()"><img src="iicons/del.png"></a>
     </div>
 
 
-    <img id="imgPre" src="canvas/kamban.png" style="width:300px">
+    <img id="imgPre" style="width:300px">
   </form>
 </div>
 

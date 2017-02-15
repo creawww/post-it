@@ -15,6 +15,7 @@ html,body{
   background-size: 100% 100%!important;
   background-repeat: no-repeat;
   background-attachment: fixed;
+  background-size: cover;
 }
 
 	#menu{
@@ -22,12 +23,15 @@ html,body{
   width: 160px;
   height: 500px;
   background-color:  rgba(255,255,255,0.8);
+  border-left: 8px solid #ff6600;
   box-shadow: -2px 2px 5px #555;
   z-index: 3;
   transition: all 1s ease-in-out;
   margin-left: -200px;
 	}
-
+#btnEditProy{
+  margin-left: -15px;
+}
 .headermenu{
      background-color: rgba(0,0,0,0.3);
      height: 20px;
@@ -79,9 +83,9 @@ float:left;
     overflow: hidden;
 }
 #listmenu li a {
-	display: inline-block;
+	display: block;
 	padding: 5px;
-	border-bottom: 1px solid black;
+	border-bottom: 1px solid #ff6600;
 	text-decoration: none;
 
 
@@ -122,15 +126,11 @@ float:left;
 	cursor: pointer;  
 }
 
-
-
 #formelemen{
 	margin: 5px;	
 	padding: 5px;
 	border: 1px solid white;
 	border-radius: 5px;
-
-
 
 }
 .chidden{
@@ -159,20 +159,28 @@ float:left;
 }
 .btngroup  {
 padding: 15px;
+text-align: right;
 display: flex;
   justify-content: space-between;
 }
+#btnEditProy{
+   display: none; 
+}
 
-
+#confirmDel{
+  font-size: 0.8em;
+  display: none;
+  color:red;
+}
 a{
-  opacity:0.8;
   text-decoration: none;
 }
 a:hover{
-  opacity:1;
-  transform:scale(1.15);
+  transform:scale(1.1);
 
 }
 .active{
-  color:red;
+  background-color: #ff6600;
+  font-weight: bold;
+  color:white;
 }

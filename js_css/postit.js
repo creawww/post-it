@@ -4,7 +4,7 @@ var $pcolors;
 
 var listcolors = {"amarillo":"#FEF1B5","azul":"#b5d6fe","verde":"#cefeb5","naranja":"#ffc36b","rosa":"#fab5fe"};
 
-var canvas = {"myKanban":"mykanban.png", "dafo":"dafo.svg", "empatia":"empatia.png","cambas":"cambas.jpg"};
+var canvas = {"Vacio":"vacio.png","kanban":"kanban.png","kanban 1":"kanban1.png", "dafo":"dafo.png", "empatia":"empatia.png","cambas":"cambas.jpg"};
 
 var canvasActive=null;
 
@@ -13,7 +13,7 @@ var canvaspostitIni=[
 	  	"canvas":"ini.png",
 	  	"date" : "01-02-2017",
 		"postits":[
-						{"id": 0, "px":300, "py":300, "tex":"primer posit", "col":"#b5d6fe"},
+						{"id": 0, "px":300, "py":300, "tex":"post-it Demo", "col":"#b5d6fe"},
 				  ]  	
 		}
 	];
@@ -37,7 +37,7 @@ var PostIt={
 		    
 		    $(".post-it").draggable({handle: ".header",stop: function() { 
 			        	PostIt.changeData(PostIt.propierties(this.id).dindex,PostIt.propierties(this.id).dscreen);
-			    }});
+			    }, containment: "window" });
     	    
 		    $("a.close").on("click", PostIt.delete);
 		    $("a.opti").on("click", PostIt.showColor);
@@ -138,16 +138,14 @@ var Board={
 		    Board.createPanelColors();
 			Board.draw();
 
-
-			canvasActive=canvaspostit.length-1;
-			Board.loadCanvas(canvasActive)
+			Board.loadCanvas()
 		
 		},
 
 		draw:function(){
 			$("#tablero").append('<a href="#" id="btnOpenMenu"><img src="iicons/menu.png"></a>')
-			$("#closeMenu").on("click", function(){	$("#menu").css({'margin-left': "-200px"}); $("#btnOpenMenu").css({'display': "block"})});
-			$("#btnOpenMenu").on("click", function(){ $("#menu").css({'margin-left': "0px"}); $("#btnOpenMenu").css({'display': "none"})});
+			$("#closeMenu").on("click", function(){	$("#menu").css({'margin-left': "-200px"}); $("#btnOpenMenu").show({'display': "block"})});
+			$("#btnOpenMenu").on("click", function(){ $("#menu").css({'margin-left': "0px"}); $("#btnOpenMenu").hide(1000)});
 
 			$("#tablero").append('<a href="#" id="btnNewPostit"><img src="iicons/postits.png"></a>')			
 			$("#btnNewPostit").on("click", PostIt.new);
@@ -173,24 +171,28 @@ var Board={
 		},
 
 		addProyect:function(){
-			var h = new Date();
-			var hoy = h.getDate()+"-"+(h.getMonth()+1)+"-"+h.getFullYear();
+			if($('#newProy').val()!=""){
+				var h = new Date();
+				var hoy = h.getDate()+"-"+(h.getMonth()+1)+"-"+h.getFullYear();
 
-			obj={
-				"title": $('#newProy').val(),
-			  	"canvas":$('#listcanvas').val(),
-	  			"date" : hoy,
-				"postits":[]
-			};
-			console.log("nuevo p")
-			console.log(obj)
-			canvaspostit.push(obj);
-			canvasActive=canvaspostit.length-1;
-			dialog.dialog( "close" );
-			Board.createListMenu();
-			Board.update_localStorage();
+				obj={
+					"title": $('#newProy').val(),
+				  	"canvas":$('#listcanvas').val(),
+		  			"date" : hoy,
+					"postits":[]
+				};
+				canvaspostit.push(obj);
+				canvasActive=canvaspostit.length-1;
+				dialog.dialog( "close" );
+				Board.createListMenu();
+				Board.update_localStorage();
+				Board.loadCanvas()
+			}
 
-			Board.loadCanvas(canvaspostit.length-1)
+		},
+		showConfirmDel:function(){
+			console.log("ver confirm")
+			$('#confirmDel').css({"display":"block"})	
 		},
 
 		delProyect:function(){
@@ -201,7 +203,7 @@ var Board={
 		    Board.createListMenu();
 			Board.update_localStorage();
 
-			Board.loadCanvas(canvaspostit.length)		    
+			Board.loadCanvas()		    
 		},
 		updateProyect:function(){
 			dat=canvaspostit;
@@ -220,14 +222,16 @@ var Board={
 
 		},		
 		showFormProyect:function(){
-
+			$('#confirmDel').css({"display":"none"})	
 			dialog.dialog( "open" );
 			if(canvasActive){
 				titl=canvaspostit[canvasActive].title;
 				vcanva=canvaspostit[canvasActive].canvas;
+				$('#btnDelProy').css({"display":"block"})	
 			}else{
+				$('#btnDelProy').css({"display":"none"})
 				titl="";
-				vcanva="mykanban.png"
+				vcanva="vacio.png"
 			}
 			$("#newProy").val(titl);	
 			$("#listcanvas").val(vcanva);
@@ -237,12 +241,15 @@ var Board={
 
 		createListMenu:function(){
 			data=canvaspostit;
-			$("#listmenu").html("");
-			var ldata="";
-			for(var d=(data.length-1); d>0 ; d--) {
-			    ldata+='<li><a href="#" onclick="Board.loadCanvas('+d+')">'+data[d].title+'</a></li>'
+			if (data.length>1){
+				$('#btnEditProy').css({"display":"block"})
+				$("#listmenu").html("");
+				var ldata="";
+				for(var d=(data.length-1); d>0 ; d--) {
+				    ldata+='<li><a href="#" onclick="Board.loadCanvas('+d+')">'+data[d].title+'</a></li>'
+				}
+				$("#listmenu").append(ldata);
 			}
-			$("#listmenu").append(ldata);
 		},
 
 		createListCanva:function(){
@@ -274,7 +281,8 @@ var Board={
 			
 		},
 
-		loadCanvas:function(id){
+		loadCanvas:function(id=-1){
+			id = (id>=0)? id : (canvaspostit.length-1)
 
 			$("#tablero").html("");
 			Board.draw();
