@@ -130,8 +130,6 @@ var Board={
 			$("#btnEditProy").on( "click", function() { Board.showFormProyect(); });		
 			
 			canvaspostit=Board.read_localStorage();
-			console.log("canvaspostit")			
-			console.log(canvaspostit)
 
 		    Board.createListMenu();
 		    Board.createListCanva();
@@ -187,11 +185,12 @@ var Board={
 				Board.createListMenu();
 				Board.update_localStorage();
 				Board.loadCanvas()
+			}else{
+				$("#newProy").addClass("inputNotData");
 			}
 
 		},
 		showConfirmDel:function(){
-			console.log("ver confirm")
 			$('#confirmDel').css({"display":"block"})	
 		},
 
@@ -222,7 +221,8 @@ var Board={
 
 		},		
 		showFormProyect:function(){
-			$('#confirmDel').css({"display":"none"})	
+			$('#confirmDel').css({"display":"none"})
+			$("#newProy").removeClass("inputNotData");	
 			dialog.dialog( "open" );
 			if(canvasActive){
 				titl=canvaspostit[canvasActive].title;
@@ -281,14 +281,13 @@ var Board={
 			
 		},
 
-		loadCanvas:function(id=-1){
+		loadCanvas:function(id){
 			id = (id>=0)? id : (canvaspostit.length-1)
 
 			$("#tablero").html("");
 			Board.draw();
 			var lastid=0;
 			canvasActive=id;
-			console.log("carga:"+id);
 			d=canvaspostit[id];
 			$("#tablero").css({'background': "url(canvas/"+d.canvas+") 100% 100%"});
 				for(var p in d.postits) {
